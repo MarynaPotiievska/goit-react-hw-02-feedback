@@ -8,22 +8,31 @@ export class App extends Component {
     good: 0,
     neutral: 0,
     bad: 0,
+    total: 0,
+    positivePercentage: 0,
   };
 
   feedbackCounter = feedback => {
-    this.setState(prevState => ({ [feedback]: prevState[feedback] + 1 }));
+    const { good } = this.state;
+    this.setState(prevState => ({
+      [feedback]: prevState[feedback] + 1,
+      total: prevState.total + 1,
+      positivePercentage: Math.round((good / (prevState.total + 1)) * 100),
+    }));
   };
 
-  countTotalFeedback = (good, neutral, bad) => {
-    return good + neutral + bad;
-  };
+  // countTotalFeedback = (good, neutral, bad) => {
+  // const total = good + neutral + bad;
+  // this.setState({total});
+  // }
 
-  countPositiveFeedbackPercentage = (good, total) => {
-    return Math.round((good / total) * 100);
-  };
+  // countPositiveFeedbackPercentage = (good, total) => {
+  // const positivePercentage = Math.round(good / total * 100);
+  // this.setState({positivePercentage});
+  // }
 
   render() {
-    const { good, neutral, bad } = this.state;
+    const { good, neutral, bad, total, positivePercentage } = this.state;
     return (
       <div>
         <Section title={'Please leave feedback'}>
@@ -37,8 +46,8 @@ export class App extends Component {
             good={good}
             neutral={neutral}
             bad={bad}
-            total={this.countTotalFeedback}
-            positivePercentage={this.countPositiveFeedbackPercentage}
+            total={total}
+            positivePercentage={positivePercentage}
           />
         </Section>
       </div>
